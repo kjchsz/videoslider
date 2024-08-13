@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Slider</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f3f3;
+    }
+
+    .slider {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slides video {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .prev {
+      left: 0;
+    }
+
+    .next {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider">
+    <button class="prev" onclick="prevSlide()">&#10094;</button>
+    <div class="slides">
+      <video src="Misunderstand - Melisa.mp4" controls></video>
+      <video src="Another Side Of Me - Charlton.mp4" controls></video>
+      <video src="Empty - Raphael.mp4" controls></video>
+      <video src="Lost - Matthew.mp4" controls></video>
+      <video src="The broken clock and me - Hayden.mp4" controls></video>
+      <video src="Persistence - Sam.mp4" controls></video>
+      <video src="Penance - Melinda.mp4" controls></video>
+      <video src="After mistake - Osbert.mp4"controls></video>
+    <button class="next" onclick="nextSlide()">&#10095;</button>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    let currentVideo = document.querySelector('.slides video:nth-child(1)'); // Select first video
+
+    function showSlide(index) {
+      const slides = document.querySelector('.slides');
+      const totalSlides = slides.children.length;
+      if (index >= totalSlides) {
+        currentIndex = 0;
+      } else if (index < 0) {
+        currentIndex = totalSlides - 1;
+      } else {
+        currentIndex = index;
+      }
+      slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Stop previous video and play new one
+      currentVideo.pause();
+      currentVideo = slides.children[currentIndex];
+      currentVideo.play();
+    }
+
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    // Initialize the slider
+    showSlide(currentIndex);
+
+    // Auto slide every 6 seconds
+    setInterval(nextSlide, 6000);
+  </script>
+</body>
+</html>
